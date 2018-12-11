@@ -7,8 +7,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { NavComponent } from './nav/nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule, MatAutocompleteModule, MatFormFieldModule, MatInputModule, MatCardModule } from '@angular/material';
-import { HomeComponent } from './home/home.component';
+import { MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule, MatAutocompleteModule, MatFormFieldModule, MatInputModule, MatCardModule, MatDialogModule } from '@angular/material';
+import { HomeComponent, DialogMovie } from './home/home.component';
 import { FavorisComponent } from './favoris/favoris.component';
 import { MatSlideToggleModule} from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -20,7 +20,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     AppComponent,
     NavComponent,
     HomeComponent,
-    FavorisComponent
+    FavorisComponent,
+    DialogMovie
   ],
   imports: [
     BrowserModule,
@@ -42,9 +43,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatInputModule,
     HttpClientModule,
     MatCardModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatDialogModule
   ],
-  providers: [FavorisComponent],
-  bootstrap: [AppComponent]
+  providers: [],
+  bootstrap: [AppComponent],
+  entryComponents : [DialogMovie]
 })
 export class AppModule { }

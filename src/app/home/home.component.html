@@ -28,11 +28,14 @@
 </form>
 <div class="container"  fxLayout="row" fxLayout.xs="column" fxLayout="row wrap" fxLayoutGap="0.5%" fxLayoutAlign="center">
   <div fxFlex="25%" *ngFor="let movie of selectedMovies">
-    <mat-card class="exemple-card">
+    <mat-card class="exemple-card" mat-ripple (click)="openModal(movie)">
       <mat-card-header style="min-height: 50px">
+         <button mat-mini-fab *ngIf="movie.favori"  >
+            <mat-icon aria-label="Example icon-button with a add icon">star</mat-icon>
+         </button>
         <mat-card-title>{{ movie.Title }}</mat-card-title>
       </mat-card-header>
-      <img mat-card-image [src]="movie.Poster" alt="Photo of a film ">
+      <img mat-card-image [src]="movie.Poster" alt="Photo of a film " >
       <mat-card-content>
       </mat-card-content>
       <mat-card-actions>

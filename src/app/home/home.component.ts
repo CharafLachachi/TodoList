@@ -1,10 +1,10 @@
-import { FavorisComponent } from './../favoris/favoris.component';
 import { HomeService } from './../services/home.service';
-import { IMovieResponse, Movie } from './../models/movies.class';
+import { IMovieResponse, Movie, MovieDetails } from './../models/movies.class';
 import { Observable } from 'rxjs';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import {switchMap, debounceTime} from 'rxjs/operators';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -17,7 +17,8 @@ export class HomeComponent implements OnInit {
 
 
   constructor(private formBuilder : FormBuilder,
-    private homeService : HomeService) { 
+    private homeService : HomeService,
+    public dialog: MatDialog) { 
     console.log('home');
    
   
@@ -54,5 +55,36 @@ export class HomeComponent implements OnInit {
   }
   public removeSelected(movie : Movie){
     this.homeService.removeSelected(movie);
+  }
+
+  public openModal(movie : Movie){
+    console.log("selected Movie",movie);
+    this.homeService.searchMovieDetails(movie.imdbID).subscribe(
+      (movieDetails) => {
+        const dialogRef = this.dialog.open(DialogMovie, {
+          width: '400px',
+          data: movieDetails,
+          disableClose : false
+        });
+      }
+    )
+    
+    
+  }
+}
+
+
+@Component({
+  selector: 'dialog-movie',
+  templateUrl: 'movie.dialog.html',
+})
+export class DialogMovie {
+
+  constructor(
+    public dialogRef: MatDialogRef<DialogMovie>,
+    @Inject(MAT_DIALOG_DATA) public data: MovieDetails) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

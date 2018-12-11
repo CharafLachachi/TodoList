@@ -25,3 +25,11 @@
   .example-card {
   max-width: 400px;
 }
+
+mat-card:hover {
+    background:rgba(0,0,0,.04);
+  }
+  
+  .mat-card .last-child {
+    margin-bottom: 0;
+  }

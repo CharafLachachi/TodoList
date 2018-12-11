@@ -1,4 +1,4 @@
-import { IMovieResponse, Movie } from './../models/movies.class';
+import { IMovieResponse, Movie, MovieDetails, IMovieDetailsResponse } from './../models/movies.class';
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { environment } from "../../environments/environment";
 import { HttpClient } from '@angular/common/http';
@@ -39,6 +39,30 @@ export class HomeService {
 
               .filter(movie => movie.Title.toLowerCase().includes(name))
 
+            return response;
+          }
+        })
+      );
+  }
+  public searchMovieDetails(imdbID : string){
+    return this.httpClient.get<IMovieDetailsResponse>(this.api_url + "&i=" + imdbID).
+      pipe(
+        tap((response: IMovieDetailsResponse) => {
+          if (response.Response.indexOf("False") == -1) {
+            console.log("service 1",response);
+              response = 
+                new
+                MovieDetails(
+                  response.Title,
+                  response.Year,
+                  response.imdbID,
+                  response.Type,
+                  response.Poster,
+                    false,
+                    response.Director,
+                    response.Released,
+                    response.Runtime)
+                    console.log("service 1",response);
             return response;
           }
         })
