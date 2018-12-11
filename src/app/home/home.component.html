@@ -1,0 +1,45 @@
+<!-- <button mat-raised-button color="primary" style="margin-top: 1rem">value</button> -->
+<form class="example-form" [formGroup]='moviesForm' class="formwidth" (ngSubmit)="onSubmit()">
+  <table class="example-full-width" cellspacing="0">
+    <tr>
+      <td>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Choose a movie" [matAutocomplete]="auto" formControlName='movieInput'>
+        </mat-form-field>
+      </td>
+      <td>
+        <button mat-mini-fab type="submit">
+          <mat-icon aria-label="Example icon-button with a add icon">add</mat-icon>
+        </button>
+      </td>
+    </tr>
+  </table>
+
+  <!-- <span>Your choice is: {{moviesForm.get('movieInput').value | json}}</span> -->
+
+  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+    <mat-option *ngFor="let movie of (filteredMovies | async)?.Search" [value]="movie">
+      <img class="example-option-img" aria-hidden [src]="movie.Poster" height="50">
+      <span>{{ movie.Title }}</span> |
+      <small *ngIf="movie.Year">Year : {{ movie.Year }}</small> |
+      <small *ngIf="movie.Type">Type : {{ movie.Type }}</small>
+    </mat-option>
+  </mat-autocomplete>
+</form>
+<div class="container"  fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+  <div fxFlex="25%" *ngFor="let movie of selectedMovies">
+    <mat-card class="exemple-card">
+      <mat-card-header>
+        <mat-card-title>{{ movie.Title }}</mat-card-title>
+      </mat-card-header>
+      <img mat-card-image [src]="movie.Poster" alt="Photo of a film " class="img">
+      <mat-card-content>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button>LIKE</button>
+        <button mat-button>SHARE</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  
+</div>
