@@ -1,5 +1,5 @@
 import { IMovieResponse, Movie } from './../models/movies.class';
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { environment } from "../../environments/environment";
 import { HttpClient } from '@angular/common/http';
 import { map, tap } from 'rxjs/operators';
@@ -9,8 +9,15 @@ import { map, tap } from 'rxjs/operators';
 })
 export class HomeService {
   private api_url: string;
+  private favoriteMovies : Movie[];
+  selectedMovies : Movie[];
+
+
+
   constructor(private httpClient: HttpClient) {
     this.api_url = environment.api_url + environment.api_key;
+    this.favoriteMovies = [];
+    this.selectedMovies = [];
   }
 
 
@@ -27,7 +34,8 @@ export class HomeService {
                     movie.Year,
                     movie.imdbID,
                     movie.Type,
-                    movie.Poster))
+                    movie.Poster,
+                    false))
 
               .filter(movie => movie.Title.toLowerCase().includes(name))
 
@@ -35,5 +43,31 @@ export class HomeService {
           }
         })
       );
+  }
+
+  public addFavoriteMovie(movie : Movie){
+    this.selectedMovies.find(m => m.imdbID == movie.imdbID).favori = true; 
+
+  //  this.favoriteMovies.push(movie);
+  //  this.change.emit(this.favoriteMovies);
+  }
+
+  public addSelectedMovies(movie : Movie){
+    this.selectedMovies.push(movie);
+  }
+
+ public getFavoriteMovies(): Movie[]{
+  return this.selectedMovies.filter(m => m.favori == true);
+  }
+
+ public removeFavorite(movie : Movie){
+  this.selectedMovies.find(m => m.favori = false);
+  }
+
+  public removeSelected(movie : Movie){
+    const index = this.selectedMovies.indexOf(movie, 0);
+    if (index > -1) {
+       this.selectedMovies.splice(index, 1);
+    }
   }
 }

@@ -1,3 +1,5 @@
+import { HomeService } from './../services/home.service';
+import { Movie } from './../models/movies.class';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -5,14 +7,20 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './favoris.component.html',
   styleUrls: ['./favoris.component.scss']
 })
-export class FavorisComponent implements OnInit {
+export class FavorisComponent  {
 
-  constructor() { 
+  constructor(private homeService : HomeService) { 
     console.log('favoris');
-
   }
 
-  ngOnInit() {
+  
+
+  get favoriteMovies():Movie[] { 
+    return this.homeService.getFavoriteMovies(); 
+  } 
+
+  public removeFavori(movie){
+    this.homeService.removeFavorite(movie);
   }
 
 }

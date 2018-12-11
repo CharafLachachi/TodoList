@@ -44,7 +44,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatCardModule,
     FlexLayoutModule
   ],
-  providers: [],
+  providers: [FavorisComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

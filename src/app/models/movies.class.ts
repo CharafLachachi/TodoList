@@ -4,7 +4,8 @@ export class Movie {
         public Year: string,
         public imdbID: string, 
         public Type: string,
-        public Poster: string) { }
+        public Poster: string,
+        public favori?:boolean) { }
 }
 
 
