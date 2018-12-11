@@ -8,23 +8,26 @@ import { map, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class HomeService {
+  // The mbDb api url, 
   private api_url: string;
-  private favoriteMovies : Movie[];
+  // The array where selected movies are stocked, 
+  // I choose to add a field (favori : boolean) in Movie object, instead of using two arrays
+  // one for selected movies and one for favorite movies 
   selectedMovies : Movie[];
 
 
 
   constructor(private httpClient: HttpClient) {
     this.api_url = environment.api_url + environment.api_key;
-    this.favoriteMovies = [];
     this.selectedMovies = [];
   }
 
-
+  // Get searching result from Api, used in autocomplete
   public search(name) {
     return this.httpClient.get<IMovieResponse>(this.api_url + "&s=" + name).
       pipe(
-        tap((response: IMovieResponse) => {
+        tap(
+          (response: IMovieResponse) => {
           if (response.Response.indexOf("False") == -1) {
             response.Search = response.Search
               .map(movie =>
@@ -41,13 +44,18 @@ export class HomeService {
 
             return response;
           }
+        },
+        (error) => {
+          console.log("Somthing goes wrong !!",error);
         })
-      );
+        )
   }
+  // Get more details about a movie searched by imdbId
   public searchMovieDetails(imdbID : string){
     return this.httpClient.get<IMovieDetailsResponse>(this.api_url + "&i=" + imdbID).
       pipe(
-        tap((response: IMovieDetailsResponse) => {
+        tap(
+          (response: IMovieDetailsResponse) => {
           if (response.Response.indexOf("False") == -1) {
             console.log("service 1",response);
               response = 
@@ -65,15 +73,16 @@ export class HomeService {
                     console.log("service 1",response);
             return response;
           }
+        },
+        (error) => {
+          console.log("Somthing goes wrong !!",error);
         })
       );
   }
-
+  // Add favorite movie
   public addFavoriteMovie(movie : Movie){
+    // Search in selectedMovies which movie has movie.imdbId, and turn the favori flag to true.
     this.selectedMovies.find(m => m.imdbID == movie.imdbID).favori = true; 
-
-  //  this.favoriteMovies.push(movie);
-  //  this.change.emit(this.favoriteMovies);
   }
 
   public addSelectedMovies(movie : Movie){
@@ -81,13 +90,16 @@ export class HomeService {
   }
 
  public getFavoriteMovies(): Movie[]{
+   // Return all selected movie with the flag favori value as true
   return this.selectedMovies.filter(m => m.favori == true);
   }
 
  public removeFavorite(movie : Movie){
-  this.selectedMovies.find(m => m.favori = false);
+  // Search in selectedMovies which movie has movie.imdbId, and turn the favori flag to false.
+  this.selectedMovies.find(m => m.imdbID == movie.imdbID).favori = false;
   }
 
+  // Remove movie from selectedMovies
   public removeSelected(movie : Movie){
     const index = this.selectedMovies.indexOf(movie, 0);
     if (index > -1) {

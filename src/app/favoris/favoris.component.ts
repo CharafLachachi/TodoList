@@ -10,11 +10,10 @@ import { Component, OnInit } from '@angular/core';
 export class FavorisComponent  {
 
   constructor(private homeService : HomeService) { 
-    console.log('favoris');
   }
 
-  
-
+  // Get favorite movies from homeService, 
+  //I choose services to share variables between components
   get favoriteMovies():Movie[] { 
     return this.homeService.getFavoriteMovies(); 
   } 
